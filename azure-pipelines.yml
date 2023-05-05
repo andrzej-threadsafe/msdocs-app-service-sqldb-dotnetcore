@@ -40,9 +40,14 @@ steps:
   displayName: '.NET Core Test'
   inputs:
     command: 'test'
-    arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    #arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
     projects: '**/*[Tt]ests*.csproj'
     publishTestResults: true
+
+    #projects: '**/MyProject.UnitTests.csproj'  
+    #arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
+    #testRunTitle: MyProject.UnitTests  
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.20'  
   displayName: 'Install ReportGenerator tool'  
