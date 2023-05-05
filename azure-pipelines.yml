@@ -17,43 +17,43 @@ steps:
 #  displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-    displayName: '.NET Core Build'
-    inputs:
+  displayName: '.NET Core Build'
+  inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-    displayName: '.NET Core Test'
-    inputs:
+  displayName: '.NET Core Test'
+  inputs:
     command: 'test'
     arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
     projects: '**/*[Tt]ests*.csproj'
     publishTestResults: true
 
 - task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-    displayName: 'Create code coverage report'
-    inputs:
+  displayName: 'Create code coverage report'
+  inputs:
     reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
     targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
     assemblyfilters: '-xunit*'
 
 - task: DotNetCoreCLI@2
-  displayName: New Manifest for tool
+  displayName: 'New Manifest for tool'
   inputs:
     command: custom
     custom: 'new '
     arguments: tool-manifest
 
 - task: DotNetCoreCLI@2
-  displayName: Install EF Tool
+  displayName: 'Install EF Tool'
   inputs:
     command: custom
     custom: 'tool '
     arguments: install dotnet-ef
 
 - task: DotNetCoreCLI@2
-  displayName: Create SQL Scripts
+  displayName: 'Create SQL Scripts'
   inputs:
     command: custom
     custom: 'ef '
@@ -68,11 +68,13 @@ steps:
     flattenFolders: true
 
 - task: DotNetCoreCLI@2
+  displayName: '.NET Core Publish'
   inputs:
     command: 'publish'
     publishWebProjects: true
 
 - task: AzureWebApp@1
+  displayName: 'Deploy Web Api to Linux container'
   inputs:
     azureSubscription: 'Microsoft Partner Network(a731b6ad-11f8-43a4-b567-d64b5ffd3faa)'
     appType: 'webAppLinux'
