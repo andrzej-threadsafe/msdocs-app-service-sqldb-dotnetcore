@@ -17,6 +17,20 @@ steps:
 #  displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'New Manifest for tool'
+  inputs:
+    command: custom
+    custom: 'new '
+    arguments: tool-manifest
+
+- task: DotNetCoreCLI@2  
+  displayName: 'dotnet restore'  
+  inputs:  
+    command: restore  
+    projects: '**/DotNetCoreSqlDb.Tests.csproj'  
+    includeNuGetOrg: true  
+
+- task: DotNetCoreCLI@2
   displayName: '.NET Core Build'
   inputs:
     command: 'build'
@@ -46,13 +60,6 @@ steps:
 #    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
 #    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
 #    assemblyfilters: '-xunit*'
-
-- task: DotNetCoreCLI@2
-  displayName: 'New Manifest for tool'
-  inputs:
-    command: custom
-    custom: 'new '
-    arguments: tool-manifest
 
 - task: DotNetCoreCLI@2
   displayName: 'Install EF Tool'
