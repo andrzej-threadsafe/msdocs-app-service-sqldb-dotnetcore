@@ -13,8 +13,30 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+#- script: dotnet build --configuration $(buildConfiguration)
+#  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+    displayName: '.NET Core Build'
+    inputs:
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+    displayName: '.NET Core Test'
+    inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+    projects: '**/*[Tt]ests*.csproj'
+    publishTestResults: true
+
+- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+    displayName: 'Create code coverage report'
+    inputs:
+    reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
+    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+    assemblyfilters: '-xunit*'
 
 - task: DotNetCoreCLI@2
   displayName: New Manifest for tool
@@ -27,7 +49,7 @@ steps:
   displayName: Install EF Tool
   inputs:
     command: custom
-    custom: 'tool'
+    custom: 'tool '
     arguments: install dotnet-ef
 
 - task: DotNetCoreCLI@2
@@ -35,7 +57,15 @@ steps:
   inputs:
     command: custom
     custom: 'ef '
-    arguments: migrations script --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --idempotent --project $(Build.SourcesDirectory)/src/TodoApi.csproj --context TodoApiDbContext
+    #arguments: migrations script --idempotent --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --project $(Build.SourcesDirectory)/DotNetCoreSqlDb/DotNetCoreSqlDb.csproj --context TodoApiDbContext
+    arguments: migrations script --idempotent --output tododbscript.sql --project DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
+
+- task: CopyFiles@2
+  displayName: 'Copy EF Scripts to Staging'
+  inputs:
+    Contents: '**\tododbscript.sql'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    flattenFolders: true
 
 - task: DotNetCoreCLI@2
   inputs:
