@@ -37,13 +37,19 @@ steps:
     custom: 'add '
     arguments: 'package ReportGenerator --version 5.1.20'
 
-- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
-  displayName: 'Create code coverage report'
+- task: reportgenerator@5
+  displayName: ReportGenerator
   inputs:
-    reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
-    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
-    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
-    assemblyfilters: '-xunit*'
+    reports: cobertura.xml
+    targetdir: coveragereport
+
+#- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+#  displayName: 'Create code coverage report'
+#  inputs:
+#    reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
+#    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
+#    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+#    assemblyfilters: '-xunit*'
 
 - task: DotNetCoreCLI@2
   displayName: 'New Manifest for tool'
