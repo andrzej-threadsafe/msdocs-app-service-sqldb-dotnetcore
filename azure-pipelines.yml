@@ -30,12 +30,8 @@ steps:
     projects: '**/*[Tt]ests*.csproj'
     publishTestResults: true
 
-- task: DotNetCoreCLI@2
+- script: 'dotnet add package ReportGenerator --version 5.1.20'
   displayName: 'Add package ReportGenerator'
-  inputs:
-    command: custom
-    custom: 'add '
-    arguments: 'package ReportGenerator --version 5.1.20'
 
 - task: reportgenerator@5
   displayName: ReportGenerator
