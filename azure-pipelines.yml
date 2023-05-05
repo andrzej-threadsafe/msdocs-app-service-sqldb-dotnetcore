@@ -44,14 +44,20 @@ steps:
     projects: '**/*[Tt]ests*.csproj'
     publishTestResults: true
 
-- script: 'dotnet add package ReportGenerator --version 5.1.20'
-  displayName: 'Add package ReportGenerator'
+- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.20'  
+  displayName: 'Install ReportGenerator tool'  
 
-- task: reportgenerator@5
-  displayName: ReportGenerator
-  inputs:
-    reports: cobertura.xml
-    targetdir: coveragereport
+- script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  displayName: 'Create reports'  
+
+#- script: 'dotnet add package ReportGenerator --version 5.1.20'
+#  displayName: 'Add package ReportGenerator'
+
+#- task: reportgenerator@5
+#  displayName: ReportGenerator
+#  inputs:
+#    reports: cobertura.xml
+#    targetdir: coveragereport
 
 #- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
 #  displayName: 'Create code coverage report'
