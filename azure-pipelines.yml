@@ -36,18 +36,26 @@ steps:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: '.NET Core Test'
-  inputs:
-    command: 'test'
-    #arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
-    projects: '**/*[Tt]ests*.csproj'
-    publishTestResults: true
+#- task: DotNetCoreCLI@2
+#  displayName: '.NET Core Test'
+#  inputs:
+#    command: 'test'
+#    #arguments: '--configuration $(buildConfiguration) --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+#    arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
+#    projects: '**/*[Tt]ests*.csproj'
+#    publishTestResults: true
 
-    #projects: '**/MyProject.UnitTests.csproj'  
-    #arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
-    #testRunTitle: MyProject.UnitTests  
+#    #projects: '**/MyProject.UnitTests.csproj'  
+#    #arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code coverage" -- RunConfiguration.DisableAppDomain=true'  
+#    #testRunTitle: MyProject.UnitTests  
+
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --RunConfiguration.DisableAppDomain=true'
+    workingDirectory: $(Build.SourcesDirectory)
 
 #- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.20'  
 #  displayName: 'Install ReportGenerator tool'  
@@ -59,10 +67,13 @@ steps:
 #  displayName: 'Add package ReportGenerator'
 
 - task: reportgenerator@5
-  displayName: ReportGenerator
+  displayName: 'ReportGenerator code coverage report'
   inputs:
-    reports: cobertura.xml
+    reports: '$(System.DefaultWorkingDirectory)/coverlet/reports/cobertura.xml'
+    #reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
     targetdir: coveragereport
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
+    assemblyfilters: '-xunit*'
 
 #- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
 #  displayName: 'Create code coverage report'
