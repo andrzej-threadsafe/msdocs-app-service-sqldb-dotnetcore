@@ -76,8 +76,8 @@ steps:
 - task: reportgenerator@5
   displayName: 'ReportGenerator code coverage report'
   inputs:
-    reports: '$(System.DefaultWorkingDirectory)/coverlet/reports/cobertura.xml'
-    #reports: '$(Build.SourcesDirectory)\**\coverage.cobertura.xml'
+    #reports: '$(System.DefaultWorkingDirectory)/coverlet/reports/cobertura.xml'
+    reports: '$(Agent.TempDirectory)\**\coverage.cobertura.xml'
     targetdir: coveragereport
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
     assemblyfilters: '-xunit*'
