@@ -129,7 +129,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      ls -R '$(Build.DefaultWorkingDirectory)'
+      ls -R '$(System.DefaultWorkingDirectory)'
 
 #- task: PowerShell@2
 #  displayName: 'Show source directory files'
