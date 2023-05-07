@@ -79,7 +79,8 @@ steps:
     #reports: '$(System.DefaultWorkingDirectory)/coverlet/reports/cobertura.xml'
     # From pipeline log:  /home/vsts/work/_temp/be690bad-07ce-49ea-8ea6-ad3105f753d5/coverage.cobertura.xml
     reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-    targetdir: coveragereport
+    #targetdir: coveragereport
+    targetdir: '$(Build.SourcesDirectory)/coverlet/reports'
     reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
     assemblyfilters: '-xunit*'
 
@@ -90,6 +91,12 @@ steps:
 #    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
 #    reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
 #    assemblyfilters: '-xunit*'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
 
 - task: DotNetCoreCLI@2
   displayName: 'Install EF Tool'
