@@ -110,12 +110,14 @@ steps:
     runtimeStack: 'DOTNETCORE|6.0'
 
 - task: Bash@3
+  displayName: 'List default working directory?'
   inputs:
     targetType: 'inline'
     script: |
       ls -R
 
 - task: Bash@3
+  displayName: 'List staging directory?'
   inputs:
     targetType: 'inline'
     workingDirectory: '$(Build.StagingDirectory)'
@@ -123,10 +125,11 @@ steps:
       ls -R
 
 - task: Bash@3
+  displayName: 'List default working directory'
   inputs:
     targetType: 'inline'
     script: |
-      ls -R '$(Build.StagingDirectory)'
+      ls -R '$(Build.DefaultWorkingDirectory)'
 
 #- task: PowerShell@2
 #  displayName: 'Show source directory files'
