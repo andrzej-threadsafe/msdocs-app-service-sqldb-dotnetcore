@@ -57,6 +57,13 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true'
     workingDirectory: $(Build.SourcesDirectory)
 
+- task: Bash@3
+  displayName: 'List default working directory'
+  inputs:
+    targetType: 'inline'
+    script: |
+      ls -R '$(System.DefaultWorkingDirectory)'
+
 #- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.20'  
 #  displayName: 'Install ReportGenerator tool'  
 
