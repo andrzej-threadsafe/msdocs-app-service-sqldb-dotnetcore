@@ -16,19 +16,20 @@ steps:
 #- script: dotnet build --configuration $(buildConfiguration)
 #  displayName: 'dotnet build $(buildConfiguration)'
 
-#- task: DotNetCoreCLI@2
-#  displayName: 'New Manifest for tool'
-#  inputs:
-#    command: custom
-#    custom: 'new '
-#    arguments: tool-manifest
+- task: DotNetCoreCLI@2
+  displayName: 'New Manifest for tool'
+  # required by dotnet-ef Tool.
+  inputs:
+    command: custom
+    custom: 'new '
+    arguments: tool-manifest
 
-- task: DotNetCoreCLI@2  
-  displayName: 'dotnet restore'  
-  inputs:  
-    command: restore  
-    projects: '**/DotNetCoreSqlDb.Tests.csproj'  
-    includeNuGetOrg: true  
+#- task: DotNetCoreCLI@2  
+#  displayName: 'dotnet restore'  
+#  inputs:  
+#    command: restore  
+#    projects: '**/DotNetCoreSqlDb.Tests.csproj'  
+#    includeNuGetOrg: true  
 
 - task: DotNetCoreCLI@2
   displayName: '.NET Core Build'
