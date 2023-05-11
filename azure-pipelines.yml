@@ -120,7 +120,7 @@ steps:
   inputs:
     command: custom
     custom: 'ef '
-    arguments: 'migrations bundle -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate'
+    arguments: 'migrations bundle -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o $(build.artifactstagingdirectory)/migrate'
 
 - task: CopyFiles@2
   displayName: 'Copy EF Scripts to Staging'
