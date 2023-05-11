@@ -100,6 +100,7 @@ steps:
     summaryFileLocation: $(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
 
 - task: DotNetCoreCLI@2
+  # requires 'New Manifest for tool' executed earlier.
   displayName: 'Install EF Tool'
   inputs:
     command: custom
@@ -113,6 +114,13 @@ steps:
     custom: 'ef '
     #arguments: migrations script --idempotent --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --project $(Build.SourcesDirectory)/DotNetCoreSqlDb/DotNetCoreSqlDb.csproj --context TodoApiDbContext
     arguments: migrations script --idempotent --output tododbscript.sql --project DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
+
+- task: DotNetCoreCLI@2
+  displayName: 'Create EF migration bundle'
+  inputs:
+    command: custom
+    custom: 'ef '
+    arguments: 'migrations bundle -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o ${{env.DOTNET_ROOT}}/myapp/migrate'
 
 - task: CopyFiles@2
   displayName: 'Copy EF Scripts to Staging'
