@@ -117,7 +117,7 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy EF Scripts to Staging'
   inputs:
-    Contents: '**\tododbscript.sql'
+    Contents: '**\sql'
     TargetFolder: '$(build.artifactstagingdirectory)'
     flattenFolders: true
 
@@ -176,3 +176,15 @@ steps:
 #    targetType: 'inline'
 #    workingDirectory: '$(Build.StagingDirectory)'
 #    script: 'Get-ChildItem -recurse'
+
+- task: SqlAzureDacpacDeployment@1
+  inputs:
+    azureSubscription: 'Microsoft Partner Network(a731b6ad-11f8-43a4-b567-d64b5ffd3faa)'
+    AuthenticationType: 'server'
+    ServerName: 'reference6-server'
+    DatabaseName: 'reference6-database'
+    SqlUsername: 'reference6-server-admin'
+    SqlPassword: 'ZYGIFSHKFXX14I6L$'
+    deployType: 'SqlTask'
+    SqlFile: '$(System.DefaultWorkingDirectory)\**\tododbscript.sql'
+    IpDetectionMethod: 'AutoDetect'
