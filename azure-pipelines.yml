@@ -121,13 +121,15 @@ steps:
     command: restore  
     arguments: '-r linux-x64'
 
+# This task requires <RuntimeIdentifiers> to be set in the EF project file.
+# Creates file efbundle.exe in System.DefaultWorkingDirectory
 - task: DotNetCoreCLI@2
   displayName: 'Create EF migration bundle'
   inputs:
     command: custom
     custom: 'ef '
-    #arguments: 'migrations bundle -v -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o $(build.artifactstagingdirectory)/migrate'
-    arguments: 'migrations bundle -v --no-build --configuration $(BuildConfiguration) -r linux-x64 -p DotNetCoreSqlDb'
+    #arguments: 'migrations bundle -v --no-build --configuration $(BuildConfiguration) -r linux-x64 -p DotNetCoreSqlDb'
+    arguments: 'migrations bundle --no-build --configuration $(BuildConfiguration) -r linux-x64 -p DotNetCoreSqlDb'
 
 - task: CopyFiles@2
   displayName: 'Copy EF Scripts to Staging'
