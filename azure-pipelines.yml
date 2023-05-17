@@ -107,13 +107,13 @@ steps:
     custom: 'tool '
     arguments: install dotnet-ef
 
-- task: DotNetCoreCLI@2
-  displayName: 'Create SQL Scripts'
-  inputs:
-    command: custom
-    custom: 'ef '
-    #arguments: migrations script --idempotent --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --project $(Build.SourcesDirectory)/DotNetCoreSqlDb/DotNetCoreSqlDb.csproj --context TodoApiDbContext
-    arguments: migrations script --idempotent --output tododbscript.sql --project DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
+# - task: DotNetCoreCLI@2
+#   displayName: 'Create SQL Scripts'
+#   inputs:
+#     command: custom
+#     custom: 'ef '
+#     #arguments: migrations script --idempotent --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --project $(Build.SourcesDirectory)/DotNetCoreSqlDb/DotNetCoreSqlDb.csproj --context TodoApiDbContext
+#     arguments: migrations script --idempotent --output tododbscript.sql --project DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
 
 - task: DotNetCoreCLI@2
   displayName: 'Create EF migration bundle'
