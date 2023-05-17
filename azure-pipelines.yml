@@ -115,6 +115,12 @@ steps:
 #     #arguments: migrations script --idempotent --output $(Build.SourcesDirectory)/SQL/tododbscript.sql --project $(Build.SourcesDirectory)/DotNetCoreSqlDb/DotNetCoreSqlDb.csproj --context TodoApiDbContext
 #     arguments: migrations script --idempotent --output tododbscript.sql --project DotNetCoreSqlDb/DotNetCoreSqlDb.csproj
 
+- task: DotNetCoreCLI@2  
+  displayName: 'dotnet restore'  
+  inputs:  
+    command: restore  
+    arguments: -r 'linux-x64'
+
 - task: DotNetCoreCLI@2
   displayName: 'Create EF migration bundle'
   inputs:
