@@ -119,7 +119,7 @@ steps:
   displayName: 'dotnet restore'  
   inputs:  
     command: restore  
-    arguments: -r 'linux-x64'
+    arguments: '-r linux-x64'
 
 - task: DotNetCoreCLI@2
   displayName: 'Create EF migration bundle'
