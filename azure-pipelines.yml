@@ -127,7 +127,7 @@ steps:
     command: custom
     custom: 'ef '
     #arguments: 'migrations bundle -v -p DotNetCoreSqlDb/DotNetCoreSqlDb.csproj -o $(build.artifactstagingdirectory)/migrate'
-    arguments: 'migrations bundle -v --no-build --no-self-contained --configuration $(BuildConfiguration) -r linux-x64 -p DotNetCoreSqlDb'
+    arguments: 'migrations bundle -v --no-build --configuration $(BuildConfiguration) -r linux-x64 -p DotNetCoreSqlDb'
 
 - task: CopyFiles@2
   displayName: 'Copy EF Scripts to Staging'
