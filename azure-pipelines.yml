@@ -212,4 +212,4 @@ steps:
     script: |
       # Write your commands here
       #./efbundle -h
-      ./efbundle -v --connection '#Server=tcp:referencea6-server.database.windows.net,1433;Initial Catalog=referencea6-database;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication="Active Directory Default";'
+      ./efbundle -v --connection 'Server=tcp:referencea6-server.database.windows.net,1433;Initial Catalog=referencea6-database;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication="Active Directory Default";'
