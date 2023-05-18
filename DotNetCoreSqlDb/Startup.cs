@@ -1,4 +1,5 @@
-﻿using DotNetCoreSqlDb.Models;
+﻿using System;
+using DotNetCoreSqlDb.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace DotNetCoreSqlDb
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -21,8 +22,9 @@ namespace DotNetCoreSqlDb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var connectionString = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
             services.AddDbContext<MyDatabaseContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                    options.UseSqlServer(/*this.Configuration.GetConnectionString("defaultConnection")*/connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
