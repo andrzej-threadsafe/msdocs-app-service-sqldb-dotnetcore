@@ -211,4 +211,4 @@ steps:
     targetType: 'inline'
     script: |
       # Write your commands here
-      ./efbundle --connection defaultConnection
+      ./efbundle --connection {$AZURE_SQL_CONNECTIONSTRING}
