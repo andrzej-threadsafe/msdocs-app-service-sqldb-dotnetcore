@@ -58,12 +58,12 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true'
     workingDirectory: $(Build.SourcesDirectory)
 
-- task: Bash@3
-  displayName: 'List default working directory'
-  inputs:
-    targetType: 'inline'
-    script: |
-      ls -R '$(System.DefaultWorkingDirectory)'
+# - task: Bash@3
+#   displayName: 'List default working directory'
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       ls -R '$(System.DefaultWorkingDirectory)'
 
 #- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.20'  
 #  displayName: 'Install ReportGenerator tool'  
@@ -160,26 +160,25 @@ steps:
     runtimeStack: 'DOTNETCORE|6.0'
 
 - task: Bash@3
-  displayName: 'List default working directory?'
+  displayName: 'List [/1/a] Build.StagingDirectory [System.ArtefactsDirectory, Build.ArtefactStagingDirectory]'
   inputs:
     targetType: 'inline'
     script: |
-      ls -R
+      ls -R $(Build.StagingDirectory)
 
 - task: Bash@3
-  displayName: 'List staging directory?'
+  displayName: 'List [1/b] Build.BinariesDirectory'
   inputs:
     targetType: 'inline'
-    workingDirectory: '$(Build.StagingDirectory)'
     script: |
-      ls -R
+      ls -R $(Build.BinariesDirectory)
 
 - task: Bash@3
-  displayName: 'List default working directory'
+  displayName: 'List [1/s] Build.SourcesDirectory [System.DefaultWorkingDirectory]'
   inputs:
     targetType: 'inline'
     script: |
-      ls -R '$(System.DefaultWorkingDirectory)'
+      ls -R $(Build.SourcesDirectory)
 
 #- task: PowerShell@2
 #  displayName: 'Show source directory files'
